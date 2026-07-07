@@ -1,13 +1,12 @@
 import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import cors from "cors";
 import connectDB from "./db/index.db.js";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import  userRoutes from "./routes/user.routes.js";
-import captionRoutes from "./routes/caption.routes.js";
-dotenv.config();
-
+import captainRoutes from "./routes/captain.routes.js";
 connectDB();
 
 const app = express();
@@ -22,7 +21,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/users", userRoutes);
-app.use("/api/v1/captions", captionRoutes);
+app.use("/api/v1/captains", captainRoutes);
 
 
 

@@ -1,14 +1,78 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useState, useRef } from 'react'
+import { useGSAP } from '@gsap/react';
+import { gsap } from 'gsap';
+import 'remixicon/fonts/remixicon.css'
 
-const Home = () => {
+
+function Home() {
+    const [pickup, setPickup] = useState("");
+    const [destination, setDestination] = useState("");
+    const [panelOpen, setPanelOpen] = useState(false);
+    const panelRef = useRef(null);
+    const panelCloseRef = useRef(null);
+
+    const submitHandler = (e) => {
+        e.preventDefault();
+    }
+
+    useGSAP(function () {
+        if (panelOpen) {
+            gsap.to(panelRef.current, {
+                height: "70%"
+            })
+            gsap.to(panelCloseRef.current, {
+                opacity: 1,
+            })
+        } else {
+            gsap.to(panelRef.current, {
+                height: "0%"
+            })
+            gsap.to(panelCloseRef.current, {
+                opacity: 0,
+            })
+        }
+    }, [panelOpen]);
+
+
     return (
-        <div>
-            <div className='bg-cover justify-end bg-bottom bg-[url(https://images.unsplash.com/photo-1619059558110-c45be64b73ae?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHRyYWZmaWMlMjBsaWdodHN8ZW58MHx8MHx8fDA%3D)] h-screen pt-8 flex  flex-col w-full'>
-                <img className='w-16 absolute left-5 top-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
-                    <div className='bg-white pb-7 py-4 px-4'>
-                    <h2 className='text-[40px] font-bold'>Get Started with Uber</h2>
-                    <Link to="/login" className='flex items-center justify-center w-full bg-black text-white py-3 rounded-lg mt-5'>Continue</Link>
+        <div className="relative h-screen">
+            <img className="w-16 absolute top-5 left-5" src="https://e7.pngegg.com/pngimages/631/1023/png-clipart-logo-brand-product-design-font-uber-logo-text-logo.png" alt="Uber Logo" />
+
+            <div className="h-screen w-screen ">
+                {/* image for temporary use */}
+                <img className="w-full h-full object-cover" src="https://i.sstatic.net/gtiI7.gif" alt="Placeholder" />
+            </div>
+            <div className="bg-white flex flex-col justify-end absolute top-0 h-screen w-full">
+                <div className="h-[30%] p-6 bg-white relative">
+                    <h5
+                        ref={panelCloseRef}
+                        onClick={() => setPanelOpen(false)}
+                        className='absolute opacity-0 top-6 right-6 text-2xl'>
+                        <i className="ri-arrow-down-wide-fill"></i>
+                    </h5>
+                    <h4 className="text-2xl font-semibold">Find a trip</h4>
+                    <form onSubmit={(e) => { submitHandler(e) }}>
+                        <div className='line absolute h-16 w-1 top-[45%] left-5 bg-gray-700 rounded-full'></div>
+                        <input
+                            className="bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-5"
+                            type="text"
+                            placeholder="add pick-up location"
+                            value={pickup}
+                            onChange={(e) => setPickup(e.target.value)}
+                            onClick={() => setPanelOpen(true)}
+                        />
+                        <input
+                            className="bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-3"
+                            type="text"
+                            placeholder="Enter your destination"
+                            value={destination}
+                            onChange={(e) => setDestination(e.target.value)}
+                            onClick={() => setPanelOpen(true)}
+                        />
+                    </form>
+                </div>
+                <div ref={panelRef} className="h-[70%] bg-red-500 p-5 hidden">
+
                 </div>
             </div>
         </div>

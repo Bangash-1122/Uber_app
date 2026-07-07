@@ -1,7 +1,7 @@
-import { Caption } from "../models/caption.model";
+import { Captain } from "../models/captain.model";
 
 
-export const registerCaption = async ({
+export const registerCaptain = async ({
     firstname, lastname, email, password, color, plate, capacity, vehicleType
 }) => {
     if (!firstname || !lastname || !email || !password || !color || !plate || !capacity || !vehicleType) {
@@ -9,7 +9,7 @@ export const registerCaption = async ({
     }
 }
 
-    const caption = Caption.create({
+    const captain = Captain.create({
         fullname: {
             firstname,
             lastname

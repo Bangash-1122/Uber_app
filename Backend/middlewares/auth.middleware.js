@@ -2,7 +2,7 @@ import { User } from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { BlacklistToken } from "../models/blacklistToken.model.js";
-import { Caption } from "../models/caption.model.js";
+import { Captain } from "../models/captain.model.js";
 
 const authUser = async (req, res, next) => {
     try {
@@ -30,7 +30,7 @@ const authUser = async (req, res, next) => {
     }
 }
 
-const authCaption = async (req, res, next) => {
+const authCaptain = async (req, res, next) => {
     try {
         const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
         if (!token) {
@@ -38,8 +38,8 @@ const authCaption = async (req, res, next) => {
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const caption = await Caption.findById(decoded.userId).select("-password");
-        if (!caption) {
+        const captain = await Captain.findById(decoded.userId).select("-password");
+        if (!captain) {
             return res.status(401).json({ message: "Unauthorized" });
         }
 
@@ -48,7 +48,7 @@ const authCaption = async (req, res, next) => {
             return res.status(401).json({ message: "Unauthorized" });
         }
 
-        req.caption = caption;
+        req.captain = captain;
 
         return next();
     } catch (error) {
@@ -58,5 +58,5 @@ const authCaption = async (req, res, next) => {
 
 export {
     authUser,
-    authCaption
+    authCaptain
 };
