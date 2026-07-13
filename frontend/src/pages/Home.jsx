@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import 'remixicon/fonts/remixicon.css'
+import LocationSearchPenal from '../components/LocationSearchPenal';
 
 
 function Home() {
@@ -18,14 +19,17 @@ function Home() {
     useGSAP(function () {
         if (panelOpen) {
             gsap.to(panelRef.current, {
-                height: "70%"
+                height: "70%",
+                padding: 24
+                // opacity: 1,
             })
             gsap.to(panelCloseRef.current, {
-                opacity: 1,
+                // opacity: 1,
             })
         } else {
             gsap.to(panelRef.current, {
-                height: "0%"
+                height: "0%",
+                opacity: 0,
             })
             gsap.to(panelCloseRef.current, {
                 opacity: 0,
@@ -35,7 +39,7 @@ function Home() {
 
 
     return (
-        <div className="relative h-screen">
+        <div className="relative h-screen overflow-hidden">
             <img className="w-16 absolute top-5 left-5" src="https://e7.pngegg.com/pngimages/631/1023/png-clipart-logo-brand-product-design-font-uber-logo-text-logo.png" alt="Uber Logo" />
 
             <div className="h-screen w-screen ">
@@ -71,9 +75,12 @@ function Home() {
                         />
                     </form>
                 </div>
-                <div ref={panelRef} className="h-[70%] bg-red-500 p-5 hidden">
-
+                <div ref={panelRef} className="h-[70%] bg-white p-5 hidden">
+                        <LocationSearchPenal />
                 </div>
+            </div>
+            <div className='fixed z-10'>
+                <img src='https://www.pngplay.com/wp-content/uploads/8/Uber-PNG-Photos-preview.webp' alt="Uber car" />
             </div>
         </div>
     )
