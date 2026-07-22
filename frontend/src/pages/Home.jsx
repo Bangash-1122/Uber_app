@@ -11,6 +11,8 @@ function Home() {
     const [panelOpen, setPanelOpen] = useState(false);
     const panelRef = useRef(null);
     const panelCloseRef = useRef(null);
+    const[vehiclePanel, setVehiclePanel] = useState(false);
+    const vehiclePanelRef = useRef(null);
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -37,6 +39,17 @@ function Home() {
         }
     }, [panelOpen]);
 
+    useGSAP(function () {
+        if (vehiclePanel) {
+            gsap.to(vehiclePanelRef.current, {
+                transform: 'translateY(0%)',
+            })
+        } else {
+            gsap.to(vehiclePanelRef.current, {
+                transform: 'translateY(100%)',
+            })
+        }
+    }, [vehiclePanel]);
 
     return (
         <div className="relative h-screen overflow-hidden">
@@ -76,11 +89,46 @@ function Home() {
                     </form>
                 </div>
                 <div ref={panelRef} className="h-[70%] bg-white p-5 hidden">
-                        <LocationSearchPenal />
+                        <LocationSearchPenal panelOpen={panelOpen} setPanelOpen={setPanelOpen} vehiclePanel={vehiclePanel} setVehiclePanel={setVehiclePanel} />
                 </div>
             </div>
-            <div className='fixed z-10'>
-                <img src='https://www.pngplay.com/wp-content/uploads/8/Uber-PNG-Photos-preview.webp' alt="Uber car" />
+
+
+            <div ref={vehiclePanelRef} className='fixed w-full z-10 bottom-0 translate-y-full px-1 py-10 pt-14 bg-white'>
+                <h5 className='p-3 w-[93%] text-center absolute top-0' onClick={() => setVehiclePanel(false)}>
+                    <i className="ri-arrow-down-wide-line text-3xl text-gray-200"></i>
+                    </h5>
+                <h3 className='text-2xl font-semibold mb-5'>Choose a Vehicle</h3>
+
+            <div className='flex w-full border-2 mb-2 active:border-black rounded-xl p-3 items-center justify-between'>
+                <img className='h-12' src='https://www.pngplay.com/wp-content/uploads/8/Uber-PNG-Photos-preview.webp' alt="Uber car" />
+                <div className='w-1/2'>
+                    <h4 className='font-medium text-base'>UberGo <span><i className="ri-user-fill">4</i></span></h4>
+                    <h5 className='font-medium text-sm'>2 mins away</h5>
+                    <p className='font-normal text-xs text-gray-600'>Affordable, compact rides</p>
+                </div>
+                <h2 className='text-lg font-semibold'>$143.30</h2>
+                </div>
+
+            <div className='flex w-full border-2 mb-2 active:border-black rounded-xl p-3 items-center justify-between'>
+                <img className='h-12' src='https://cn-geo1.uber.com/image-proc/crop/resizecrop/udam/format=auto/width=552/height=552/srcb64=aHR0cHM6Ly90Yi1zdGF0aWMudWJlci5jb20vcHJvZC91ZGFtLWFzc2V0cy85NTM4NTEyZC1mZGUxLTRmNzMtYmQ1MS05Y2VmZjRlMjU0ZjEucG5n' alt="Uber Moto" />
+                <div className='-ml-2 w-1/2'>
+                    <h4 className='font-medium text-base'>Uber Moto<span><i className="ri-user-fill">1</i></span></h4>
+                    <h5 className='font-medium text-sm'>4 mins away</h5>
+                    <p className='font-normal text-xs text-gray-600'>Affordable, Motorcycle rides</p>
+                </div>
+                <h2 className='text-lg font-semibold'>$60.30</h2>
+                </div>
+
+            <div className='flex w-full border-2 mb-2 active:border-black rounded-xl p-3 items-center justify-between'>
+                <img className='h-12' src='https://clipart-library.com/2023/Uber_Auto_312x208_pixels_Mobile.png' alt="Uber Auto" />
+                <div className='w-1/2'>
+                    <h4 className='font-medium text-base'>Uber Auto<span><i className="ri-user-fill">3</i></span></h4>
+                    <h5 className='font-medium text-sm'>5 mins away</h5>
+                    <p className='font-normal text-xs text-gray-600'>Affordable, Auto rides</p>
+                </div>
+                <h2 className='text-lg font-semibold'>$95.30</h2>
+                </div>
             </div>
         </div>
     )
