@@ -21,7 +21,6 @@ const registerCaptain = asyncHandler(async (req, res) => {
     }
 
     const hashedPassword = await Captain.hashPassword(password);
-    
     const captain = await Captain.createCaptain({
         firstname: fullname.firstname,
         lastname: fullname.lastname,
